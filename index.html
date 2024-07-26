@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscribe to My YouTube Channel</title>
+    <style>
+        body {
+            background: url('https://source.unsplash.com/random/1600x900') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.85);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 700px;
+            width: 100%;
+            box-shadow: 0 0 1000px rgba(0, 0, 0, 0.7);
+            position: relative;
+            transition: opacity 0.5s ease;
+        }
+
+        .container img {
+            height: 240px;
+            width: 240px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            border: 6px solid #fff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+        }
+
+        .container img:hover {
+            transform: scale(1.05);
+        }
+
+        .container h1 {
+            background-color: #ff0000;
+            border-radius: 12px;
+            font-size: 44px;
+            padding: 20px;
+            margin: 0;
+            display: inline-block;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
+            color: #fff;
+            transition: background-color 0.3s ease;
+        }
+
+        .container h1:hover {
+            background-color: #cc0000;
+        }
+
+        .container .button, .container input[type="email"] {
+            background-color: #ff0000;
+            border: none;
+            border-radius: 12px;
+            font-size: 22px;
+            padding: 15px 30px;
+            color: white;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .container .button:hover, .container input[type="email"]:hover {
+            background-color: #cc0000;
+            transform: scale(1.05);
+        }
+
+        .container input[type="email"] {
+            width: calc(100% - 60px);
+            margin-top: 20px;
+            padding: 15px;
+            font-size: 20px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .countdown, .message {
+            font-size: 22px;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #f0f0f0;
+            transition: opacity 1s ease;
+        }
+
+        .message {
+            font-size: 24px;
+        }
+
+        /* Loading Animation Styles */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 7000;
+            transition: opacity 1s ease;
+        }
+
+        .loading-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-spinner {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #ff0000;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                max-width: 90%;
+            }
+
+            .container img {
+                height: 200px;
+                width: 200px;
+            }
+
+            .container h1 {
+                font-size: 36px;
+                padding: 15px;
+            }
+
+            .container .button, .container input[type="email"] {
+                font-size: 20px;
+                padding: 12px 25px;
+            }
+        }
+    </style>
+    <script>
+        function showCountdown(elementId, duration, callback) {
+            const countdownElement = document.getElementById(elementId);
+            let remainingTime = duration;
+            countdownElement.innerHTML = `Please wait ${remainingTime} seconds...`;
+            const countdownInterval = setInterval(() => {
+                remainingTime -= 1;
+                countdownElement.innerHTML = `Please wait ${remainingTime} seconds...`;
+                if (remainingTime <= 0) {
+                    clearInterval(countdownInterval);
+                    callback();
+                }
+            }, 1000);
+        }
+
+        function validateEmail(email) {
+            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return regex.test(email);
+        }
+
+        function showLoadingOverlay() {
+            document.getElementById('loading-overlay').classList.remove('hidden');
+        }
+
+        function hideLoadingOverlay() {
+            document.getElementById('loading-overlay').classList.add('hidden');
+        }
+
+        function showConfirmation() {
+            document.getElementById('subscribe-section').classList.add('hidden');
+            showLoadingOverlay();
+            setTimeout(() => {
+                hideLoadingOverlay();
+                document.getElementById('confirmation-section').classList.remove('hidden');
+                showCountdown('confirmation-countdown', 10, () => {
+                    
+                    
+                });
+            }, 2000); // Simulated delay
+        }
+
+        function confirmSubscription() {
+            const email = document.getElementById('email').value;
+            if (validateEmail(email)) {
+                document.getElementById('confirmation-section').classList.add('hidden');
+                showLoadingOverlay();
+                setTimeout(() => {
+                    hideLoadingOverlay();
+                    document.getElementById('final-countdown').classList.remove('hidden');
+                    showCountdown('final-countdown', 15, () => {
+                        document.getElementById('final-countdown').classList.add('hidden');
+                        document.getElementById('final-section').classList.remove('hidden');
+                    });
+                }, 2000); // Simulated delay
+            } else {
+                alert('Please enter a valid email address to confirm your subscription.');
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <img src="download (3).jpeg" alt="Profile Picture">
+        <br>
+        <h1>EternalHacker Pro</h1>
+        
+        <div id="subscribe-section">
+            <h2>Subscribe to My Channel</h2>
+            <button class="button" onclick="window.location.href='https://www.youtube.com/@EternalHackerpro'; showConfirmation();">Subscribe</button>
+        </div>
+
+        <div id="confirmation-countdown" class="hidden countdown"></div>
+
+        <div id="confirmation-section" class="hidden">
+            <h2>Confirm Your Subscription</h2>
+            <p class="message">Please enter your email to confirm your subscription.</p>
+            <input type="email" id="email" placeholder="Enter your email">
+            <button class="button" onclick="confirmSubscription()">Confirm</button>
+        </div>
+
+        <div id="final-countdown" class="hidden countdown"></div>
+
+        <div id="final-section" class="hidden">
+            <h2>Thank You for Subscribing!</h2>
+            <p class="message">Here is your special link:</p>
+            <a href="https://www.mediafire.com/file/mn2jlny2ov1krv0/EternalHacker+pro+admin+panel.7z/file" style="color: lightblue; font-size: 24px; text-decoration: underline;">Get Your Link ✔</a>
+        </div>
+    </div>
+
+    <!-- Loading overlay -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+        <div class="loading-spinner"></div>
+    </div>
+</body>
+</html>
